@@ -37,7 +37,7 @@ export class TodosStore {
     this.toggleTodo = this.toggleTodo.bind(this)
   }
 
-  public async getTodos() {
+  @action public async getTodos() {
     this.status = 'request'
     try {
       const todos = await apiCaller({
@@ -51,7 +51,7 @@ export class TodosStore {
     }
   }
 
-  public async addTodo(label: ITodo['label']) {
+  @action public async addTodo(label: ITodo['label']) {
     this.todos = [
       { label, id: +new Date(), completed: false, isLoading: true },
       ...this.todos,
@@ -66,7 +66,7 @@ export class TodosStore {
     await this.getTodos()
   }
 
-  public async removeTodo(id: number) {
+  @action public async removeTodo(id: number) {
     this.todos = this.todos.map(t =>
       t.id === id ? { ...t, isLoading: true } : t,
     )
@@ -80,7 +80,7 @@ export class TodosStore {
     await this.getTodos()
   }
 
-  public async toggleTodo(id: number) {
+  @action public async toggleTodo(id: number) {
     this.todos = this.todos.map(t =>
       t.id === id ? { ...t, completed: !t.completed } : t,
     )
@@ -98,7 +98,7 @@ export class TodosStore {
     await this.getTodos()
   }
 
-  public get remainingTodo() {
+  @computed public get remainingTodo() {
     return this.todos.filter(t => t.completed)
   }
 }
