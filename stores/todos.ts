@@ -31,14 +31,9 @@ export class TodosStore {
   constructor(initialData: Partial<ITodosStore> = {}) {
     this.todos = initialData.todos || []
     this.status = initialData.status || ''
-
-    this.getTodos = this.getTodos.bind(this)
-    this.addTodo = this.addTodo.bind(this)
-    this.removeTodo = this.removeTodo.bind(this)
-    this.toggleTodo = this.toggleTodo.bind(this)
   }
 
-  @action public async getTodos() {
+  @action.bound public async getTodos() {
     this.status = 'request'
     try {
       const todos = await apiCaller({
@@ -52,7 +47,7 @@ export class TodosStore {
     }
   }
 
-  @action public async addTodo(label: ITodo['label']) {
+  @action.bound public async addTodo(label: ITodo['label']) {
     this.todos = [
       { label, id: +new Date(), completed: false, isLoading: true },
       ...this.todos,
@@ -67,7 +62,7 @@ export class TodosStore {
     await this.getTodos()
   }
 
-  @action public async removeTodo(id: number) {
+  @action.bound public async removeTodo(id: number) {
     this.todos = this.todos.map(t =>
       t.id === id ? { ...t, isLoading: true } : t,
     )
@@ -81,7 +76,7 @@ export class TodosStore {
     await this.getTodos()
   }
 
-  @action public async toggleTodo(id: number) {
+  @action.bound public async toggleTodo(id: number) {
     this.todos = this.todos.map(t =>
       t.id === id ? { ...t, completed: !t.completed } : t,
     )
