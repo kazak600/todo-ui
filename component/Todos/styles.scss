@@ -1,0 +1,149 @@
+@import '../../styles/colors.scss';
+
+@keyframes shine-lines {
+  from {
+    background-position: -468px 0;
+  }
+
+  to {
+    background-position: 468px 0;
+  }
+}
+
+@mixin base-control($bgc, $c, $brc) {
+  padding: 0.375rem 1rem;
+  background-color: $bgc;
+  color: $c;
+  border: 2px solid $brc;
+  border-radius: 5px;
+  outline: none;
+}
+
+%list {
+  list-style-type: none;
+  padding: 0;
+}
+
+%list-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  min-height: 1.5rem;
+}
+
+%input {
+  @include base-control($light, $dark, $muted);
+  margin-right: 1rem;
+
+  &:hover {
+    border-color: $dark;
+  }
+
+  &:focus {
+    border-color: $primary;
+  }
+}
+
+%button {
+  @include base-control($primary, $light, $primary);
+  cursor: pointer;
+
+  &:hover {
+    background-color: darken($primary, 10%);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.todo-list {
+  @extend %list;
+
+  &__item {
+    @extend %list-item;
+
+    &--completed {
+      span {
+        text-decoration: line-through;
+      }
+    }
+
+    &--loading {
+      color: $muted;
+      pointer-events: none;
+    }
+
+    input {
+      margin-right: 0.5rem;
+      cursor: pointer;
+    }
+
+    &:hover {
+      .remove-todo {
+        visibility: visible;
+      }
+    }
+  }
+}
+
+.add-todo {
+  margin-bottom: 2rem;
+
+  &__input {
+    @extend %input;
+  }
+
+  &__button {
+    @extend %button;
+  }
+}
+
+.remove-todo {
+  background-color: transparent;
+  color: $primary;
+  border: 0;
+  padding: 0;
+  transform: translate(0, -3px);
+  margin-left: 1rem;
+  text-decoration: none;
+  visibility: hidden;
+  height: 1rem;
+
+  &:hover {
+    color: $error;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.loader {
+  padding: 0;
+  li {
+    @extend %list-item;
+    background: linear-gradient(
+      to right,
+      lighten($muted, 12%) 8%,
+      lighten($muted, 16%) 38%,
+      lighten($muted, 12%) 54%
+    );
+    background-size: 1000px 640px;
+    width: 9rem;
+    animation: shine-lines 2s linear infinite forwards;
+    border-radius: 5px;
+
+    &:nth-child(4n + 2) {
+      width: 10rem;
+    }
+
+    &:nth-child(3n + 2) {
+      width: 7rem;
+    }
+
+    &:nth-child(2n + 3) {
+      width: 7.5rem;
+    }
+  }
+}
