@@ -17,10 +17,11 @@ export interface ITodo {
 export interface ITodosStore {
   todos: ITodo[]
   status: string
-  getTodos: () => Promise<ITodosStore['todos']>
+  getTodos: () => void
   removeTodo: (id: ITodo['id']) => void
-  toggleTodo: (index: number) => void
+  toggleTodo: (id: ITodo['id']) => void
   addTodo: (label: ITodo['label']) => void
+  remainingTodo: () => ITodosStore['todos']
 }
 
 export class TodosStore {
