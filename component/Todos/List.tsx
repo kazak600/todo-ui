@@ -15,6 +15,7 @@ function TodoList() {
   } = useContext(StoreContext)
 
   const isLoading = (status === 'request' && !todos.length) || status === ''
+  console.log(111);
 
   if (isLoading && !isServer) {
     NProgress.start()
